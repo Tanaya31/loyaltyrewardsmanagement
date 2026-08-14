@@ -1,0 +1,106 @@
+<mvc:View 
+    controllerName="loyaltydashboard.loyaltydashboard.controller.CustomerDetails" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns="sap.m" 
+    displayBlock="true"> 
+ 
+    <Page 
+        id="customerDetailsPage" 
+        title="Customer Details" 
+        showNavButton="true" 
+        navButtonPress=".onNavBack"> 
+ 
+        <content> 
+ 
+            <VBox 
+                id="customerDetailsContainer" 
+                class="sapUiResponsiveContentPadding"> 
+ 
+                <Panel 
+                    id="customerInformationPanel" 
+                    class="sapUiMediumMarginBottom"> 
+
+                    <headerToolbar>
+                        <Toolbar id="customerInformationToolbar">
+
+                            <Title
+                                id="customerInformationTitle"
+                                text="Customer Information"
+                                level="H2"/>
+
+                            <ToolbarSpacer 
+                                id="customerInformationSpacer"/>
+
+                            <Button
+                                id="editCustomerButton"
+                                text="Edit"
+                                icon="sap-icon://edit"
+                                press=".onEditCustomer"/>
+
+                            <Button
+                                id="deleteCustomerButton"
+                                text="Delete"
+                                icon="sap-icon://delete"
+                                type="Reject"
+                                press=".onDeleteCustomer"
+                                class="sapUiTinyMarginBegin"/>
+
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <VBox 
+                        id="customerInformation" 
+                        class="sapUiMediumMargin"> 
+ 
+                        <ObjectIdentifier 
+                            id="customerIdentifier" 
+                            title="{name}" 
+                            text="{email}" 
+                            class="sapUiSmallMarginBottom"/> 
+ 
+                        <ObjectStatus 
+                            id="customerTierStatus" 
+                            title="Tier" 
+                            text="{tier}" 
+                            state="Information" 
+                            class="sapUiSmallMarginBottom"/> 
+ 
+                        <ObjectNumber 
+                            id="customerPointsNumber" 
+                            number="{totalPoints}" 
+                            unit="Loyalty Points" 
+                            emphasized="true"/> 
+ 
+                    </VBox> 
+ 
+                </Panel> 
+ 
+                <Panel 
+                    id="purchaseHistoryPanel" 
+                    headerText="Purchase History" 
+                    class="sapUiMediumMarginTop"> 
+ 
+                    <List 
+                        id="purchaseHistoryList" 
+                        noDataText="No purchase transactions available"/> 
+ 
+                </Panel> 
+ 
+                <Panel 
+                    id="redemptionHistoryPanel" 
+                    headerText="Redemption History" 
+                    class="sapUiMediumMarginTop"> 
+ 
+                    <List 
+                        id="redemptionHistoryList" 
+                        noDataText="No redemption records available"/> 
+ 
+                </Panel> 
+ 
+            </VBox> 
+ 
+        </content> 
+ 
+    </Page> 
+ 
+</mvc:View>

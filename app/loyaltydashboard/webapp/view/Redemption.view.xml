@@ -1,0 +1,131 @@
+<mvc:View
+    controllerName="loyaltydashboard.loyaltydashboard.controller.Redemption"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="redemptionPage"
+        title="Redemption History"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+
+        <content>
+
+            <VBox
+                id="redemptionContainer"
+                class="sapUiResponsiveContentPadding">
+
+                <VBox
+                    id="redemptionHeader"
+                    class="sapUiSmallMarginBottom">
+
+                    <Title
+                        id="redemptionTitle"
+                        text="Redemption History"
+                        level="H1"/>
+
+                    <Text
+                        id="redemptionSubtitle"
+                        text="View customer redemptions and redeem loyalty points."/>
+
+                </VBox>
+
+                <Toolbar id="redemptionToolbar">
+
+                    <Title
+                        id="redemptionTableTitle"
+                        text="Redemptions"/>
+
+                    <ToolbarSpacer
+                        id="redemptionToolbarSpacer"/>
+
+                    <Button
+                        id="redeemPointsButton"
+                        text="Redeem Points"
+                        type="Emphasized"
+                        icon="sap-icon://money-bills"
+                        press=".onRedeemPoints"/>
+
+                </Toolbar>
+
+                <Table
+                    id="redemptionTable"
+                    items="{/Redemptions}"
+                    growing="true"
+                    growingThreshold="10"
+                    noDataText="No redemptions available">
+
+                    <columns>
+
+                        <Column id="redemptionCustomerColumn">
+                            <Text
+                                id="redemptionCustomerHeader"
+                                text="Customer"/>
+                        </Column>
+
+                        <Column
+                            id="redemptionPointsColumn"
+                            hAlign="End">
+                            <Text
+                                id="redemptionPointsHeader"
+                                text="Points Used"/>
+                        </Column>
+
+                        <Column id="redemptionRemarksColumn">
+                            <Text
+                                id="redemptionRemarksHeader"
+                                text="Remarks"/>
+                        </Column>
+
+                        <Column id="redemptionDateColumn">
+                            <Text
+                                id="redemptionDateHeader"
+                                text="Redemption Date"/>
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem
+                            id="redemptionRow"
+                            type="Active"
+                            press=".onRedemptionPress">
+
+                            <cells>
+
+                                <Text
+                                    id="redemptionCustomer"
+                                    text="{customerID/name}"/>
+
+                                <ObjectNumber
+                                    id="redemptionPoints"
+                                    number="{pointsUsed}"
+                                    unit="pts"/>
+
+                                <Text
+                                    id="redemptionRemarks"
+                                    text="{remarks}"/>
+
+                                <Text
+                                    id="redemptionDate"
+                                    text="{
+                                        path: 'redeemDate',
+                                        formatter: '.formatDate'
+                                    }"/>
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

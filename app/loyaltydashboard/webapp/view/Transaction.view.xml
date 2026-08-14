@@ -1,0 +1,146 @@
+<mvc:View
+    controllerName="loyaltydashboard.loyaltydashboard.controller.Transaction"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="transactionPage"
+        title="Purchase History"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+
+        <content>
+
+            <VBox
+                id="transactionContainer"
+                class="sapUiResponsiveContentPadding">
+
+                <VBox
+                    id="transactionHeader"
+                    class="sapUiSmallMarginBottom">
+
+                    <Title
+                        id="transactionTitle"
+                        text="Purchase History"
+                        level="H1"/>
+
+                    <Text
+                        id="transactionSubtitle"
+                        text="View purchase transactions and record new purchases."/>
+
+                </VBox>
+
+                <Toolbar
+                    id="transactionToolbar">
+
+                    <Title
+                        id="transactionTableTitle"
+                        text="Transactions"/>
+
+                    <ToolbarSpacer
+                        id="transactionToolbarSpacer"/>
+
+                    <Button
+                        id="recordPurchaseButton"
+                        text="Record Purchase"
+                        type="Emphasized"
+                        icon="sap-icon://add"
+                        press=".onRecordPurchase"/>
+
+                </Toolbar>
+
+                <Table
+                    id="transactionTable"
+                    items="{/Transactions}"
+                    growing="true"
+                    growingThreshold="10"
+                    noDataText="No purchase transactions available">
+
+                    <columns>
+
+                        <Column id="txnCustomerColumn">
+                            <Text
+                                id="txnCustomerHeader"
+                                text="Customer"/>
+                        </Column>
+
+                        <Column id="txnChannelColumn">
+                            <Text
+                                id="txnChannelHeader"
+                                text="Channel"/>
+                        </Column>
+
+                        <Column
+                            id="txnAmountColumn"
+                            hAlign="End">
+                            <Text
+                                id="txnAmountHeader"
+                                text="Amount"/>
+                        </Column>
+
+                        <Column
+                            id="txnPointsColumn"
+                            hAlign="End">
+                            <Text
+                                id="txnPointsHeader"
+                                text="Points Earned"/>
+                        </Column>
+
+                        <Column id="txnDateColumn">
+                            <Text
+                                id="txnDateHeader"
+                                text="Transaction Date"/>
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem
+                            id="transactionRow"
+                            type="Active"
+                            press=".onTransactionPress">
+
+                            <cells>
+
+                                <Text
+                                    id="txnCustomer"
+                                    text="{customerID/name}"/>
+
+                                <ObjectStatus
+                                    id="txnChannel"
+                                    text="{channel}"
+                                    state="Information"/>
+
+                                <ObjectNumber
+                                    id="txnAmount"
+                                    number="{amount}"
+                                    unit="₹"/>
+
+                                <ObjectNumber
+                                    id="txnPoints"
+                                    number="{pointsEarned}"
+                                    unit="pts"/>
+
+                                <Text
+                                    id="txnDate"
+                                    text="{
+                                        path: 'txnDate',
+                                        formatter: '.formatDate'
+                                    }"/>
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>
