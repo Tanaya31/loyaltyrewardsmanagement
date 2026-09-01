@@ -1,0 +1,204 @@
+<mvc:View
+    controllerName="loyaltydashboard.loyaltydashboard.controller.RewardPolicy"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="rewardPolicyPage"
+        title="Reward Policy Management"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+
+        <content>
+
+            <VBox
+                id="policyContainer"
+                class="sapUiResponsiveContentPadding">
+
+                <VBox
+                    id="policyHeader"
+                    class="sapUiSmallMarginBottom">
+
+                    <Title
+                        id="policyTitle"
+                        text="Reward Policies"
+                        level="H1"/>
+
+                    <Text
+                        id="policySubtitle"
+                        text="Define and modify loyalty reward calculation policies."/>
+
+                    <ObjectStatus
+                        id="currentPolicy"
+                        text="{= ${policy>/current}
+                            ? 'Currently Used Policy: ' + ${policy>/current/policyName}
+                            : 'Currently Used Policy: None' }"
+                        state="{= ${policy>/current}
+                            ? 'Success'
+                            : 'Warning' }"
+                        class="sapUiSmallMarginTop"/>
+
+                </VBox>
+
+                <Toolbar id="policyToolbar">
+
+                    <Title
+                        id="policyTableTitle"
+                        text="Policies"
+                        level="H2"/>
+
+                    <ToolbarSpacer id="policySpacer"/>
+
+                    <Button
+                        id="createPolicyButton"
+                        text="Create Policy"
+                        icon="sap-icon://add"
+                        type="Emphasized"
+                        press=".onCreatePolicy"/>
+
+                </Toolbar>
+
+                <Table
+                    id="rewardPolicyTable"
+                    items="{policy>/policies}"
+                    growing="true"
+                    growingThreshold="10"
+                    noDataText="No reward policies available">
+
+                    <columns>
+
+                        <Column id="policyNameColumn">
+                            <Text
+                                id="policyNameHeader"
+                                text="Policy"/>
+                        </Column>
+
+                        <Column
+                            id="baseRateColumn"
+                            hAlign="End">
+                            <Text
+                                id="baseRateHeader"
+                                text="Base Rate"/>
+                        </Column>
+
+                        <Column
+                            id="multiplierColumn"
+                            hAlign="End">
+                            <Text
+                                id="multiplierHeader"
+                                text="Online Multiplier"/>
+                        </Column>
+
+                        <Column
+                            id="silverColumn"
+                            hAlign="End">
+                            <Text
+                                id="silverHeader"
+                                text="Silver Threshold"/>
+                        </Column>
+
+                        <Column
+                            id="goldColumn"
+                            hAlign="End">
+                            <Text
+                                id="goldHeader"
+                                text="Gold Threshold"/>
+                        </Column>
+
+                        <Column id="statusColumn">
+                            <Text
+                                id="statusHeader"
+                                text="Status"/>
+                        </Column>
+
+                        <Column
+                            id="actionColumn"
+                            hAlign="Center">
+                            <Text
+                                id="actionHeader"
+                                text="Actions"/>
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem id="policyRow">
+
+                            <cells>
+
+                                <Text
+                                    id="policyName"
+                                    text="{policy>data/policyName}"/>
+
+                                <ObjectNumber
+                                    id="baseRate"
+                                    number="{policy>data/baseRate}"/>
+
+                                <ObjectNumber
+                                    id="onlineMultiplier"
+                                    number="{policy>data/onlineMultiplier}"/>
+
+                                <ObjectNumber
+                                    id="silverThreshold"
+                                    number="{policy>data/silverThreshold}"
+                                    unit="pts"/>
+
+                                <ObjectNumber
+                                    id="goldThreshold"
+                                    number="{policy>data/goldThreshold}"
+                                    unit="pts"/>
+
+                                <ObjectStatus
+                                    id="policyStatus"
+                                    text="{
+                                        path: 'policy>data/isActive',
+                                        formatter: '.formatStatus'
+                                    }"
+                                    state="{
+                                        path: 'policy>data/isActive',
+                                        formatter: '.formatStatusState'
+                                    }"/>
+
+                                <HBox id="policyActions">
+
+                                    <Button
+                                        id="editButton"
+                                        icon="sap-icon://edit"
+                                        tooltip="Edit Policy"
+                                        type="Transparent"
+                                        press=".onEditPolicy"/>
+
+                                    <Button
+                                        id="activateButton"
+                                        icon="sap-icon://accept"
+                                        tooltip="Activate Policy"
+                                        type="Transparent"
+                                        visible="{= !${policy>data/isActive} }"
+                                        press=".onActivatePolicy"/>
+
+                                    <Button
+                                        id="deactivateButton"
+                                        icon="sap-icon://decline"
+                                        tooltip="Deactivate Policy"
+                                        type="Transparent"
+                                        visible="{= ${policy>data/isActive} }"
+                                        press=".onDeactivatePolicy"/>
+
+                                </HBox>
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

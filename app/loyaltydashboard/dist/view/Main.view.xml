@@ -1,0 +1,213 @@
+<mvc:View
+    controllerName="loyaltydashboard.loyaltydashboard.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:layout="sap.ui.layout"
+    displayBlock="true">
+
+    <Page
+        id="page"
+        title="Omni-Channel Loyalty &amp; Rewards Management">
+
+        <content>
+
+            <VBox
+                id="dashboardContainer"
+                class="sapUiResponsiveContentPadding">
+
+                <!-- Dashboard Heading -->
+                <VBox
+                    id="_IDGenVBox"
+                    class="sapUiSmallMarginBottom">
+
+                    <Title
+                        id="_IDGenTitle"
+                        text="Loyalty Rewards Dashboard"
+                        level="H1"/>
+
+                    <Text
+                        id="_IDGenText1"
+                        text="Manage customers, purchases, redemptions and reward policies"/>
+
+                </VBox>
+
+                <!-- KPI CARDS -->
+                <layout:Grid
+                    id="kpiGrid"
+                    defaultSpan="XL3 L3 M6 S12"
+                    hSpacing="1"
+                    vSpacing="1">
+
+                    <GenericTile
+                        id="customerKpi"
+                        header="Customers"
+                        subheader="Total Customers"
+                        press=".onCustomersKpiPress"
+                        class="sapUiSmallMargin">
+
+                        <TileContent id="_IDGenTileContent">
+                            <NumericContent
+                                id="customerCount"
+                                value="0"
+                                icon="sap-icon://customer"/>
+                        </TileContent>
+
+                    </GenericTile>
+
+                    <GenericTile
+                        id="transactionKpi"
+                        header="Transactions"
+                        subheader="Purchase History"
+                        press=".onTransactionsKpiPress"
+                        class="sapUiSmallMargin">
+
+                        <TileContent id="_IDGenTileContent1">
+                            <NumericContent
+                                id="transactionCount"
+                                value="0"
+                                icon="sap-icon://cart"/>
+                        </TileContent>
+
+                    </GenericTile>
+
+                    <GenericTile
+                        id="redemptionKpi"
+                        header="Redemptions"
+                        subheader="Redemption History"
+                        press=".onRedemptionsKpiPress"
+                        class="sapUiSmallMargin">
+
+                        <TileContent id="_IDGenTileContent2">
+                            <NumericContent
+                                id="redemptionCount"
+                                value="0"
+                                icon="sap-icon://money-bills"/>
+                        </TileContent>
+
+                    </GenericTile>
+
+                    <GenericTile
+                        id="policyKpi"
+                        header="Reward Policies"
+                        subheader="Admin Policy Management"
+                        press=".onPoliciesKpiPress"
+                        class="sapUiSmallMargin">
+
+                        <TileContent id="_IDGenTileContent3">
+                            <NumericContent
+                                id="policyCount"
+                                value="0"
+                                icon="sap-icon://business-objects-experience"/>
+                        </TileContent>
+
+                    </GenericTile>
+
+                </layout:Grid>
+
+                <!-- CUSTOMER OVERVIEW -->
+                <Panel
+                    id="overviewPanel"
+                    headerText="Customer Loyalty Overview"
+                    class="sapUiMediumMarginTop"
+                    expandable="false">
+
+                    <layout:Grid
+                        id="_IDGenGrid"
+                        defaultSpan="XL6 L6 M6 S12"
+                        hSpacing="1"
+                        vSpacing="1">
+
+                        <VBox
+                            id="_IDGenVBox1"
+                            alignItems="Center"
+                            class="sapUiMediumMargin">
+
+                            <Text
+                                id="_IDGenText2"
+                                text="Total Loyalty Points"/>
+
+                            <Title
+                                id="totalPoints"
+                                text="0"
+                                level="H2"/>
+
+                        </VBox>
+
+                        <VBox
+                            id="_IDGenVBox2"
+                            alignItems="Center"
+                            class="sapUiMediumMargin">
+
+                            <Text
+                                id="_IDGenText3"
+                                text="Active Reward Policies"/>
+
+                            <Title
+                                id="activePolicies"
+                                text="0"
+                                level="H2"/>
+
+                        </VBox>
+
+                    </layout:Grid>
+
+                </Panel>
+
+                <!-- RECENT PURCHASES -->
+                <Panel
+                    id="recentTransactionsPanel"
+                    headerText="Recent Purchases"
+                    class="sapUiMediumMarginTop"
+                    expandable="false">
+
+                    <Table
+                        id="recentTransactionsTable"
+                        growing="true"
+                        growingThreshold="5"
+                        noDataText="No purchase transactions available">
+
+                        <columns>
+
+                            <Column id="_IDGenColumnCustomer">
+                                <Text
+                                    id="_IDGenTextCustomer"
+                                    text="Customer"/>
+                            </Column>
+
+                            <Column id="_IDGenColumn">
+                                <Text
+                                    id="_IDGenText5"
+                                    text="Channel"/>
+                            </Column>
+
+                            <Column id="_IDGenColumn1">
+                                <Text
+                                    id="_IDGenText6"
+                                    text="Amount"/>
+                            </Column>
+
+                            <Column id="_IDGenColumn2">
+                                <Text
+                                    id="_IDGenText7"
+                                    text="Points Earned"/>
+                            </Column>
+
+                            <Column id="_IDGenColumn3">
+                                <Text
+                                    id="_IDGenText8"
+                                    text="Transaction Date"/>
+                            </Column>
+
+                        </columns>
+
+                    </Table>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

@@ -4,14 +4,16 @@
   "dependencies": {
     "@cap-js/hana": "^2",
     "@sap/cds": "^9",
+    "@sap/hana-client": "^2.29.25",
     "@sap/xssec": "^4"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^2.4",
     "@sap/cds-dk": "^9",
+    "@sap/hdi-deploy": "5.7.0",
     "cds-plugin-ui5": "^0.17.0",
-    "rimraf": "^5.0.5",
-    "mbt": "^1.2.49"
+    "mbt": "^1.2.49",
+    "rimraf": "^5.0.5"
   },
   "scripts": {
     "start": "cds-serve",
@@ -22,10 +24,16 @@
   },
   "private": true,
   "cds": {
+    "server": {
+      "index": true
+    },
     "requires": {
-      "[production]": {
-        "auth": "xsuaa"
-      }
+      "db": "hana",
+      "auth": "dummy",
+      "application-logging": true
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
     }
   },
   "workspaces": [

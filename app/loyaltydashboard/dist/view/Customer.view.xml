@@ -1,0 +1,139 @@
+<mvc:View
+    controllerName="loyaltydashboard.loyaltydashboard.controller.Customer"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true">
+
+    <Page
+        id="customerPage"
+        title="Customer Management"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+
+        <content>
+
+            <VBox
+                id="customerContainer"
+                class="sapUiResponsiveContentPadding">
+
+                <VBox
+                    id="customerHeader"
+                    class="sapUiSmallMarginBottom">
+
+                    <Title
+                        id="customerTitle"
+                        text="Loyalty Customers"
+                        level="H2"/>
+
+                    <Text
+                        id="customerDescription"
+                        text="View and manage customer loyalty information."/>
+
+                </VBox>
+
+                <Toolbar
+                    id="customerToolbar">
+
+                    <Title
+                        id="customerTableTitle"
+                        text="Customers"/>
+
+                    <ToolbarSpacer
+                        id="customerToolbarSpacer"/>
+
+                    <Button
+                        id="createCustomerButton"
+                        text="Create Customer"
+                        icon="sap-icon://add"
+                        type="Emphasized"
+                        press=".onCreateCustomer"/>
+
+                    <Button
+                        id="refreshCustomersButton"
+                        icon="sap-icon://refresh"
+                        tooltip="Refresh Customers"
+                        press=".onRefresh"/>
+
+                </Toolbar>
+
+                <Table
+                    id="customerTable"
+                    items="{/Customers}"
+                    growing="true"
+                    growingThreshold="10"
+                    mode="None"
+                    noDataText="No customers available">
+
+                    <columns>
+
+                        <Column id="customerNameColumn">
+                            <Text
+                                id="customerNameHeader"
+                                text="Customer"/>
+                        </Column>
+
+                        <Column id="customerEmailColumn">
+                            <Text
+                                id="customerEmailHeader"
+                                text="Email"/>
+                        </Column>
+
+                        <Column id="customerTierColumn">
+                            <Text
+                                id="customerTierHeader"
+                                text="Tier"/>
+                        </Column>
+
+                        <Column
+                            id="customerPointsColumn"
+                            hAlign="End">
+
+                            <Text
+                                id="customerPointsHeader"
+                                text="Loyalty Points"/>
+
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem
+                            id="customerListItem"
+                            type="Active"
+                            press=".onCustomerPress">
+
+                            <cells>
+
+                                <Text
+                                    id="customerName"
+                                    text="{name}"/>
+
+                                <Text
+                                    id="customerEmail"
+                                    text="{email}"/>
+
+                                <ObjectStatus
+                                    id="customerTier"
+                                    text="{tier}"
+                                    state="Information"/>
+
+                                <ObjectNumber
+                                    id="customerPoints"
+                                    number="{totalPoints}"/>
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

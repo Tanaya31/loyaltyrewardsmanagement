@@ -3,101 +3,131 @@ ID: loyaltyrewardsmanagement
 description: A simple CAP project.
 version: 1.0.0
 modules:
-- name: loyaltyrewardsmanagement-srv
-  type: nodejs
-  path: gen/srv
-  requires:
-  - name: loyaltyrewardsmanagement-auth
-  - name: loyaltyrewardsmanagement-db
-  provides:
-  - name: srv-api
-    properties:
-      srv-url: ${default-url}
-  parameters:
-    buildpack: nodejs_buildpack
-    instances: 1
-  build-parameters:
-    builder: npm-ci
-- name: loyaltyrewardsmanagement-db-deployer
-  type: hdb
-  path: gen/db
-  requires:
-  - name: loyaltyrewardsmanagement-db
-  parameters:
-    buildpack: nodejs_buildpack
-- name: loyaltyrewardsmanagement-app-content
-  type: com.sap.application.content
-  path: .
-  requires:
-  - name: loyaltyrewardsmanagement-repo-host
-    parameters:
-      content-target: true
-  build-parameters:
-    build-result: resources
+  - name: loyaltyrewardsmanagement-srv
+    type: nodejs
+    path: gen/srv
     requires:
-    - artifacts:
-      - loyaltydashboardloyaltydashboard.zip
-      name: loyaltydashboardloyaltydashboard
-      target-path: resources/
-- name: loyaltydashboardloyaltydashboard
-  type: html5
-  path: app/loyaltydashboard
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm install
-    - npm run build:cf
-    supported-platforms: []
+      - name: loyaltyrewardsmanagement-auth
+      - name: loyaltyrewardsmanagement-db
+      - name: loyaltyrewardsmanagement-logging
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+      instances: 1
+    build-parameters:
+      builder: npm-ci
+  - name: loyaltyrewardsmanagement-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: loyaltyrewardsmanagement-db
+    parameters:
+      buildpack: nodejs_buildpack
+  - name: loyaltyrewardsmanagement-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: loyaltyrewardsmanagement-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - loyaltydashboardloyaltydashboard.zip
+          name: loyaltydashboardloyaltydashboard
+          target-path: resources/
+  - name: loyaltydashboardloyaltydashboard
+    type: html5
+    path: app/loyaltydashboard
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms:
+        []
 resources:
-- name: loyaltyrewardsmanagement-auth
-  type: org.cloudfoundry.managed-service
-  parameters:
-    config:
-      oauth2-configuration:
-        credential-types:
-        - binding-secret
-        - x509
-      tenant-mode: dedicated
-      xsappname: loyaltyrewardsmanagement-${org}-${space}
-    path: ./xs-security.json
-    service: xsuaa
-    service-plan: application
-- name: loyaltyrewardsmanagement-db
-  type: com.sap.xs.hdi-container
-  parameters:
-    service: hana
-    service-plan: hdi-shared
-- name: loyaltyrewardsmanagement-repo-host
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: html5-apps-repo
-    service-name: loyaltyrewardsmanagement-html5-service
-    service-plan: app-host
-- name: loyaltyrewardsmanagement-destination-service
-  type: org.cloudfoundry.managed-service
-  parameters:
-    config:
-      HTML5Runtime_enabled: false
-      init_data:
-        instance:
-          destinations:
-          - Authentication: NoAuthentication
-            Name: ui5
-            ProxyType: Internet
-            Type: HTTP
-            URL: https://ui5.sap.com
-          existing_destinations_policy: update
-      version: 1.0.0
-    service: destination
-    service-name: loyaltyrewardsmanagement-destination-service
-    service-plan: lite
+  - name: loyaltyrewardsmanagement-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        oauth2-configuration:
+          credential-types:
+            - binding-secret
+            - x509
+        tenant-mode: dedicated
+        xsappname: loyaltyrewardsmanagement-${org}-${space}
+        role-collections:
+          - name: 'RetailStaff (loyaltyrewardsmanagement ${org}-${space})'
+            description: 'generated'
+            role-template-references:
+              - '$XSAPPNAME.RetailStaff'
+          - name: 'Customer (loyaltyrewardsmanagement ${org}-${space})'
+            description: 'generated'
+            role-template-references:
+              - '$XSAPPNAME.Customer'
+          - name: 'Admin (loyaltyrewardsmanagement ${org}-${space})'
+            description: 'generated'
+            role-template-references:
+              - '$XSAPPNAME.Admin'
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
+  - name: loyaltyrewardsmanagement-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: loyaltyrewardsmanagement-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: loyaltyrewardsmanagement-html5-service
+      service-plan: app-host
+  - name: loyaltyrewardsmanagement-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+              - Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+                HTML5.ForwardAuthToken: true
+                Name: loyaltyrewardsmanagement-srv-api
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/srv-url}
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: loyaltyrewardsmanagement-destination-service
+      service-plan: lite
+    requires:
+      - name: srv-api
+  - name: loyaltyrewardsmanagement-logging
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: application-logs
+      service-plan: lite
+      service-name: loyaltyrewardsmanagement-logging
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
 build-parameters:
   before-all:
-  - builder: custom
-    commands:
-    - npm ci
-    - npx cds build --production
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
